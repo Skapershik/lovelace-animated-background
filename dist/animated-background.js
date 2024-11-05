@@ -472,7 +472,7 @@ function renderBackgroundHTML() {
     ${doc_body}
     </body>
     </html>`;
-    if (!bg) {
+    if (!bg && video_type) {
       if (!current_config.entity) {
         STATUS_MESSAGE("Applying default background", true);
       }
@@ -496,6 +496,35 @@ function renderBackgroundHTML() {
       div.className = "bg-wrap"
       div.innerHTML = `
      <iframe id="background-iframe" class="bg-video" frameborder="0" srcdoc="${source_doc}"/> 
+    `;
+      Root.shadowRoot.appendChild(style);
+      Root.shadowRoot.appendChild(div)
+      Previous_Url = state_url;
+    }
+    else if (!bg && !video_type) {
+      if (!current_config.entity) {
+        STATUS_MESSAGE("Applying default background", true);
+      }
+      var style = document.createElement("style");
+      style.innerHTML = `
+      .bg-video{
+          min-width: 100vw; 
+          min-height: 100vh;
+          
+      }
+      .bg-wrap{
+          position: fixed;
+          right: 0;
+          top: 0;
+          min-width: 100vw; 
+          min-height: 100vh;
+          z-index: -10;
+      }`;
+      var div = document.createElement("div");
+      div.id = "background-video";
+      div.className = "bg-wrap"
+      div.innerHTML = `
+     <iframe id="background-iframe" class="bg-video" frameborder="0" src="${state_url}"/> 
     `;
       Root.shadowRoot.appendChild(style);
       Root.shadowRoot.appendChild(div)
