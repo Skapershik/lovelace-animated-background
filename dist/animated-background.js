@@ -538,7 +538,7 @@ function renderBackgroundHTML() {
           Previous_State = null;
         }
         if (video_type) bg.srcdoc = source_doc;
-        else bg.src = source_doc;
+        else bg.src = state_url;
         Previous_Url = state_url;
       }
     }
