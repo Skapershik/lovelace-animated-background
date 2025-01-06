@@ -69,7 +69,7 @@ function getVars() {
     if (Lovelace) {
       Animated_Config = Lovelace.config.animated_background;
     }
-    View = Root.shadowRoot.getElementById("view");
+    View = document.querySelector("hui-view-background");
   }
 }
 
