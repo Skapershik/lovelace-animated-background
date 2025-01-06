@@ -69,7 +69,7 @@ function getVars() {
     if (Lovelace) {
       Animated_Config = Lovelace.config.animated_background;
     }
-    View = document.querySelector("hui-view-background");
+    View = Root.shadowRoot.querySelector("hui-view-container");
   }
 }
 
@@ -558,7 +558,6 @@ function urlIsVideo(url) {
 //removes lovelace theme background
 function removeDefaultBackground(node, current_config) {
   var background = 'transparent';
-  View.style.background = background;
   if (current_config.background) {
     background = current_config.background;
   }
@@ -581,28 +580,21 @@ function processDefaultBackground(temp_enabled) {
 
       var view_holder;
       var view_node = null;
-      var view_node_panel = null;
 
       if (Root) {
-        view_holder = Root.shadowRoot.getElementById("view");
+        view_holder = Root.shadowRoot.querySelector("hui-view-container");
 
         if (view_holder) {
-          view_node_panel = view_holder.querySelector("hui-panel-view")
-          view_node = view_holder.querySelector('hui-view');
+          view_node = view_holder.querySelector('hui-view-background');
         }
 
-        if (view_node || view_node_panel) {
-          //required because ios pre 13.4 bitches out if there is nullish coalescing operator ('??')
-          var iphone_bullshit_fixer = view_node;
-          if (!iphone_bullshit_fixer) {
-            iphone_bullshit_fixer = view_node_panel;
-          }
+        if (view_node) {
           if (temp_enabled) {
-            removeDefaultBackground(iphone_bullshit_fixer, current_config);
+            removeDefaultBackground(view_node, current_config);
             DEBUG_MESSAGE("Removing view background for configuration:", currentConfig(), true);
           }
           else {
-            restoreDefaultBackground(iphone_bullshit_fixer);
+            restoreDefaultBackground(view_node);
             if (current_config && current_config.reason) {
               DEBUG_MESSAGE("Current config is disabled because " + current_config.reason, null, true);
             }
